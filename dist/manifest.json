@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "دليل — Dalil",
+  "short_name": "دليل",
+  "version": "1.0.0",
+  "description": "حوّل خطوات شغلك إلى دليل واضح. سجّل التفاعل على صفحة الويب، وحرّر الخطوات، واطبع دليلًا عربيًا أنيقًا.",
+  "minimum_chrome_version": "116",
+  "action": {
+    "default_title": "دليل — توثيق خطوات الويب",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "permissions": ["storage", "activeTab", "scripting", "desktopCapture"],
+  "host_permissions": []
+}

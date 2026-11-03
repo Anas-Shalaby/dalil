@@ -1,0 +1,117 @@
+@import '@fontsource/ibm-plex-sans-arabic/400.css';
+@import '@fontsource/ibm-plex-sans-arabic/500.css';
+@import '@fontsource/ibm-plex-sans-arabic/600.css';
+@import '@fontsource/ibm-plex-sans-arabic/700.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    font-family:
+      'IBM Plex Sans Arabic', 'SF Arabic', 'Segoe UI', Tahoma, Arial, sans-serif;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply m-0 min-h-screen bg-canvas text-ink;
+    font-feature-settings: 'kern' 1;
+  }
+
+  .popup-body {
+    width: 380px;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: #dfd2fb;
+    color: #191827;
+  }
+
+  :where(button, a, input, textarea, select, [tabindex]):focus-visible {
+    outline: 2px solid #7440e9;
+    outline-offset: 2px;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    @apply text-muted/70;
+  }
+
+  textarea {
+    field-sizing: content;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .surface {
+    @apply rounded-2xl border border-line bg-surface shadow-card;
+  }
+
+  .field {
+    @apply w-full rounded-xl border border-line bg-surface px-3.5 py-2.5 text-sm text-ink shadow-[inset_0_1px_1px_rgba(25,24,39,0.02)] transition-colors placeholder:text-muted/70 hover:border-[#dcd8e8] focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10;
+  }
+
+  .eyebrow {
+    @apply text-[11px] font-semibold tracking-wide text-muted;
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: #d8d4e4 transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: #d8d4e4;
+    border-radius: 999px;
+  }
+
+  .paper-grid {
+    background-image:
+      linear-gradient(to right, rgba(116, 64, 233, 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(116, 64, 233, 0.045) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+}

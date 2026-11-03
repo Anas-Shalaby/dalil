@@ -1,0 +1,42 @@
+{
+  "name": "dalil-extension",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "دليل — توثيق خطوات العمل على الويب",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "npm run typecheck && node scripts/build.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "verify:pdf": "node scripts/verify-pdf.mjs",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@fontsource/ibm-plex-sans-arabic": "5.3.0",
+    "@fontsource/noto-naskh-arabic": "^5.3.0",
+    "lucide-react": "0.577.0",
+    "pdf-lib": "^1.17.1",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/chrome": "0.3.6",
+    "@types/react": "18.3.31",
+    "@types/react-dom": "18.3.7",
+    "@vitejs/plugin-react": "4.7.0",
+    "autoprefixer": "10.6.1",
+    "fake-indexeddb": "^6.2.2",
+    "jsdom": "^26.1.0",
+    "postcss": "8.5.31",
+    "puppeteer-core": "^24.15.0",
+    "tailwindcss": "3.4.19",
+    "typescript": "5.9.3",
+    "vite": "6.4.5",
+    "vitest": "^3.2.4"
+  }
+}

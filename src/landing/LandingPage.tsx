@@ -4,6 +4,7 @@ import { Hero } from './components/Hero';
 import { Trust } from './components/Trust';
 import { Problem } from './components/Problem';
 import { Features } from './components/Features';
+import { Examples } from './components/Examples';
 import { HowItWorks } from './components/HowItWorks';
 import { Demo } from './components/Demo';
 import { UseCases } from './components/UseCases';
@@ -36,6 +37,9 @@ export function LandingPageInner() {
         </LazySection>
         <LazySection>
           <Features t={t} />
+        </LazySection>
+        <LazySection>
+          <Examples />
         </LazySection>
         <LazySection>
           <HowItWorks />

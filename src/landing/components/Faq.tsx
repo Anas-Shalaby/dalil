@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
-import { FAQ_ITEMS } from '../content';
+import { useLang } from '../lang';
 
 export function Faq() {
+  const { strings } = useLang();
+  const faq = strings.faq;
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const toggle = (index: number) => {
@@ -13,21 +15,23 @@ export function Faq() {
     <section id="faq" className="py-16 sm:py-24">
       <div className="mx-auto max-w-3xl px-5 sm:px-8">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="text-[12px] font-semibold tracking-wide text-primary">الأسئلة الشائعة</p>
-          <h2 className="mt-3 text-3xl font-semibold text-ink sm:text-4xl">كل ما تحتاج معرفته</h2>
-          <p className="mt-4 text-[15px] leading-8 text-muted">
-            أجوبة مختصرة، بدون تعقيد. وإذا ما عجبك شيء، راسلنا من خلال الإضافة.
+          <p className="text-[12px] font-semibold tracking-wide text-primary">{faq.eyebrow}</p>
+          <h2 className="mt-3 text-3xl font-semibold text-ink sm:text-4xl dark:text-slate-50">
+            {faq.headline}
+          </h2>
+          <p className="mt-4 text-[15px] leading-8 text-muted dark:text-slate-300">
+            {faq.description}
           </p>
         </div>
 
         <div className="mt-12 space-y-3">
-          {FAQ_ITEMS.map((item, index) => {
+          {faq.items.map((item, index) => {
             const open = openIndex === index;
             return (
-              <div key={item.question} className="overflow-hidden rounded-2xl border border-line bg-surface">
+              <div key={item.question} className="overflow-hidden rounded-2xl border border-line bg-surface dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100">
                 <button
                   type="button"
-                  className="flex w-full items-center justify-between gap-4 px-5 py-4 text-start text-[15px] font-semibold text-ink transition-colors hover:bg-[#FBFAFF] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:px-6"
+                  className="flex w-full items-center justify-between gap-4 px-5 py-4 text-start text-[15px] font-semibold text-ink transition-colors hover:bg-[#FBFAFF] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:px-6 dark:text-slate-100 dark:hover:bg-slate-700"
                   aria-expanded={open}
                   aria-controls={`faq-answer-${index}`}
                   id={`faq-question-${index}`}
@@ -44,9 +48,9 @@ export function Faq() {
                     id={`faq-answer-${index}`}
                     role="region"
                     aria-labelledby={`faq-question-${index}`}
-                    className="border-t border-line px-5 pb-5 sm:px-6"
+                    className="border-t border-line px-5 pb-5 sm:px-6 dark:border-slate-700"
                   >
-                    <p className="pt-4 text-[14px] leading-8 text-muted">{item.answer}</p>
+                    <p className="pt-4 text-[14px] leading-8 text-muted dark:text-slate-300">{item.answer}</p>
                   </div>
                 ) : null}
               </div>

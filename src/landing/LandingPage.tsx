@@ -1,3 +1,4 @@
+import { LangProvider, useLang } from './lang';
 import { Nav } from './components/Nav';
 import { Hero } from './components/Hero';
 import { Trust } from './components/Trust';
@@ -13,18 +14,20 @@ import { FinalCta } from './components/FinalCta';
 import { Footer } from './components/Footer';
 import { LazySection } from './components/LazySection';
 
-export function LandingPage() {
+export function LandingPageInner() {
+  const { lang, setLang, t } = useLang();
+
   return (
-    <div className="min-h-screen bg-canvas text-ink">
+    <div className="min-h-screen bg-canvas text-ink transition-colors duration-300 dark:bg-slate-900 dark:text-slate-50">
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:start-4 focus:top-4 focus:z-50 focus:rounded-xl focus:bg-primary focus:px-4 focus:py-2 focus:text-white"
       >
-        العودة إلى المحتوى
+        {t('skipLink')}
       </a>
-      <Nav />
+      <Nav lang={lang} setLang={setLang} t={t} />
       <main id="main-content">
-        <Hero />
+        <Hero t={t} />
         <LazySection>
           <Trust />
         </LazySection>
@@ -32,7 +35,7 @@ export function LandingPage() {
           <Problem />
         </LazySection>
         <LazySection>
-          <Features />
+          <Features t={t} />
         </LazySection>
         <LazySection>
           <HowItWorks />
@@ -56,5 +59,13 @@ export function LandingPage() {
       <FinalCta />
       <Footer />
     </div>
+  );
+}
+
+export function LandingPage() {
+  return (
+    <LangProvider>
+      <LandingPageInner />
+    </LangProvider>
   );
 }

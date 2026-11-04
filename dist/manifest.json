@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "دليل — Dalil",
   "short_name": "دليل",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "حوّل خطوات شغلك إلى دليل واضح. سجّل التفاعل على صفحة الويب، وحرّر الخطوات، واطبع دليلًا عربيًا أنيقًا.",
   "minimum_chrome_version": "116",
   "action": {

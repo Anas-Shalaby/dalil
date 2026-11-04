@@ -1,7 +1,7 @@
 import { CAPTURE_CONNECT_TIMEOUT_MS } from '../shared/constants';
 import type { CaptureSurface } from '../shared/types';
 import { CaptureError, classifyMediaError } from './errors';
-import { captureFrameFromVideo, type CapturedFrame } from './frameCapture';
+import { captureFrameFromVideo, type CapturedFrame, type FrameCaptureDeps } from './frameCapture';
 import { detectCaptureSurface, surfaceLabel } from './sourceInfo';
 
 export interface MediaStreamProvider {
@@ -59,6 +59,7 @@ export interface StreamManagerDeps {
   media?: MediaStreamProvider;
   videoFactory?: VideoElementFactory;
   connectTimeoutMs?: number;
+  captureDeps?: FrameCaptureDeps;
 }
 
 interface TrackListener {
@@ -121,12 +122,14 @@ export class DesktopStreamManager {
   private readonly media: MediaStreamProvider;
   private readonly videoFactory: VideoElementFactory;
   private readonly connectTimeoutMs: number;
+  private readonly captureDeps: FrameCaptureDeps;
   private endedNotified = false;
 
   constructor(deps: StreamManagerDeps = {}) {
     this.media = deps.media ?? browserMediaStreamProvider;
     this.videoFactory = deps.videoFactory ?? domVideoElementFactory;
     this.connectTimeoutMs = deps.connectTimeoutMs ?? CAPTURE_CONNECT_TIMEOUT_MS;
+    this.captureDeps = deps.captureDeps ?? {};
   }
 
   isActive(): boolean {
@@ -228,11 +231,41 @@ export class DesktopStreamManager {
     };
   }
 
-  async capture(): Promise<CapturedFrame> {
-    if (!this.video) {
+  async capture(deps: FrameCaptureDeps = this.captureDeps ?? {}): Promise<CapturedFrame> {
+    const video = this.video;
+    if (!video) {
       throw new CaptureError('video-not-ready', 'No desktop video is connected.');
     }
-    return captureFrameFromVideo(this.video as unknown as HTMLVideoElement);
+    const element = video as unknown as HTMLVideoElement;
+    if (element.readyState < 2 || element.videoWidth <= 0 || element.videoHeight <= 0) {
+      await this.waitForCaptureReady(element);
+    }
+    if (element.readyState < 2 || element.videoWidth <= 0 || element.videoHeight <= 0) {
+      throw new CaptureError(
+        'video-not-ready',
+        `Desktop video was not ready for capture (readyState=${element.readyState}, ${element.videoWidth}x${element.videoHeight}).`,
+      );
+    }
+    return captureFrameFromVideo(element, {}, deps);
+  }
+
+  private async waitForCaptureReady(element: CaptureVideoElement): Promise<void> {
+    if (element.readyState < 2) {
+      await waitForVideoEvent(
+        element,
+        'loadedmetadata',
+        this.connectTimeoutMs,
+        'waiting for desktop video metadata during capture',
+      );
+    }
+    if (element.videoWidth <= 0 || element.videoHeight <= 0) {
+      await waitForVideoEvent(
+        element,
+        'resize',
+        Math.min(this.connectTimeoutMs, 5_000),
+        'waiting for desktop video dimensions during capture',
+      );
+    }
   }
 
   stop(): void {

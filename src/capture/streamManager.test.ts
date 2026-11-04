@@ -4,6 +4,7 @@ import {
   type CaptureVideoElement,
   type MediaStreamProvider,
 } from './streamManager';
+import type { FrameCanvas } from './frameCapture';
 
 class FakeTrack {
   readonly listeners = new Map<string, Set<EventListener>>();
@@ -188,5 +189,39 @@ describe('DesktopStreamManager', () => {
   it('refuses to capture without a connected video', async () => {
     const { manager } = setup();
     await expect(manager.capture()).rejects.toMatchObject({ code: 'video-not-ready' });
+  });
+
+  it('captures once the desktop video reports readiness', async () => {
+    const { manager, video } = setup();
+    await manager.connect('stream-1', () => undefined);
+
+    video.videoWidth = 0;
+    video.videoHeight = 0;
+    const framePromise = manager.capture({
+      createCanvas: () =>
+        ({
+          width: 0,
+          height: 0,
+          getContext: () =>
+            ({
+              fillStyle: '#ffffff',
+              imageSmoothingEnabled: true,
+              fillRect: vi.fn(),
+              drawImage: vi.fn(),
+            }) as unknown as CanvasRenderingContext2D,
+          toBlob: (callback: (blob: Blob | null) => void) => {
+            callback({ size: 2048, type: 'image/jpeg' } as unknown as Blob);
+          },
+        }) as FrameCanvas,
+      readBlobAsDataUrl: async () => 'data:image/jpeg;base64,AAAA',
+    });
+
+    video.videoWidth = 1280;
+    video.videoHeight = 720;
+    video.emit('resize');
+    const frame = await framePromise;
+
+    expect(frame.width).toBe(1280);
+    expect(frame.height).toBe(720);
   });
 });

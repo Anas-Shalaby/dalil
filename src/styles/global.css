@@ -16,11 +16,22 @@
     font-family:
       'IBM Plex Sans Arabic', 'SF Arabic', 'Segoe UI', Tahoma, Arial, sans-serif;
     text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
   }
 
   body {
     @apply m-0 min-h-screen bg-canvas text-ink;
     font-feature-settings: 'kern' 1;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  html.dark body {
+    @apply bg-slate-900 text-slate-50;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   .popup-body {
@@ -33,8 +44,13 @@
     color: #191827;
   }
 
+  html.dark ::selection {
+    background: #43218C;
+    color: #FFFFFF;
+  }
+
   :where(button, a, input, textarea, select, [tabindex]):focus-visible {
-    outline: 2px solid #7440e9;
+    outline: 2px solid #2563EB;
     outline-offset: 2px;
   }
 
@@ -43,12 +59,13 @@
     @apply text-muted/70;
   }
 
-  textarea {
-    field-sizing: content;
+  html.dark input::placeholder,
+  html.dark textarea::placeholder {
+    @apply text-slate-400/70;
   }
 
-  html {
-    scroll-behavior: smooth;
+  textarea {
+    field-sizing: content;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -72,12 +89,24 @@
     @apply rounded-2xl border border-line bg-surface shadow-card;
   }
 
+  html.dark .surface {
+    @apply border-slate-700 bg-slate-800 text-slate-50 shadow-card;
+  }
+
   .field {
     @apply w-full rounded-xl border border-line bg-surface px-3.5 py-2.5 text-sm text-ink shadow-[inset_0_1px_1px_rgba(25,24,39,0.02)] transition-colors placeholder:text-muted/70 hover:border-[#dcd8e8] focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10;
   }
 
+  html.dark .field {
+    @apply border-slate-700 bg-slate-800 text-slate-50 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] placeholder:text-slate-400/70 hover:border-slate-600 focus:ring-primary/20;
+  }
+
   .eyebrow {
     @apply text-[11px] font-semibold tracking-wide text-muted;
+  }
+
+  html.dark .eyebrow {
+    @apply text-slate-400;
   }
 
   .scrollbar-thin {
@@ -95,11 +124,21 @@
     border-radius: 999px;
   }
 
+  html.dark .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: #475569;
+  }
+
   .paper-grid {
     background-image:
       linear-gradient(to right, rgba(116, 64, 233, 0.045) 1px, transparent 1px),
       linear-gradient(to bottom, rgba(116, 64, 233, 0.045) 1px, transparent 1px);
     background-size: 24px 24px;
+  }
+
+  html.dark .paper-grid {
+    background-image:
+      linear-gradient(to right, rgba(116, 64, 233, 0.08) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(116, 64, 233, 0.08) 1px, transparent 1px);
   }
 }
 

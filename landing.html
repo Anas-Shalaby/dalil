@@ -27,9 +27,27 @@
     <meta name="twitter:image" content="https://dalil.example.com/og-image.png" />
     <meta
       name="theme-color"
-      content="#7440E9"
+      content="#2563EB"
     />
     <link rel="icon" type="image/png" href="/icons/icon-32.png" />
+    <script>
+      (function () {
+        var html = document.documentElement;
+        var savedTheme = localStorage.getItem('dalil-theme');
+        var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (savedTheme ? savedTheme === 'dark' : systemDark) {
+          html.classList.add('dark');
+        }
+        var savedLang = localStorage.getItem('dalil-lang');
+        if (savedLang === 'en') {
+          html.lang = 'en';
+          html.dir = 'ltr';
+        } else {
+          html.lang = 'ar';
+          html.dir = 'rtl';
+        }
+      })();
+    </script>
   </head>
   <body class="bg-canvas text-ink font-sans antialiased">
     <div id="root"></div>

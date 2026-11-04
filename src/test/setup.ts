@@ -3,6 +3,21 @@ import 'fake-indexeddb/auto';
 import { cleanup } from '@testing-library/react';
 import { afterEach, beforeEach, vi } from 'vitest';
 
+// jsdom does not implement window.matchMedia; provide a stub for components
+// that read the system color scheme.
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: vi.fn(() => ({
+    matches: false,
+    media: '',
+    onchange: null,
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+  })),
+});
+
 type StorageItems = Record<string, unknown>;
 
 const storage = new Map<string, unknown>();

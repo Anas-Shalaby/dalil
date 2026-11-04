@@ -1,7 +1,7 @@
 {
   "name": "dalil-extension",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "type": "module",
   "description": "دليل — توثيق خطوات العمل على الويب",
   "scripts": {

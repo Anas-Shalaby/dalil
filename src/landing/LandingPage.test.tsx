@@ -9,15 +9,15 @@ describe('LandingPage', () => {
     render(<LandingPage />);
 
     expect(
-      screen.getByRole('heading', { level: 1, name: /اشرحها مرة/ }),
+      screen.getByRole('heading', { level: 1, name: /وثّق عملك/ }),
     ).toBeInTheDocument();
-    expect(screen.getByText(/حوّل خطوات العمل على المواقع/)).toBeInTheDocument();
+    expect(screen.getByText(/خطوات العمل على أي موقع/)).toBeInTheDocument();
   });
 
   it('links every download CTA to the Chrome Web Store listing', () => {
     render(<LandingPage />);
 
-    const downloadLinks = screen.getAllByRole('link', { name: /حمّل دليل مجانًا/ });
+    const downloadLinks = screen.getAllByRole('link', { name: /حمل دليل/ });
     expect(downloadLinks.length).toBeGreaterThan(0);
     for (const link of downloadLinks) {
       expect(link).toHaveAttribute('href', CHROME_WEB_STORE_URL);
@@ -27,7 +27,7 @@ describe('LandingPage', () => {
   it('routes the secondary hero CTA to the interactive demo', () => {
     render(<LandingPage />);
 
-    const secondaryLinks = screen.getAllByRole('link', { name: /شوف دليل بيشتغل إزاي/ });
+    const secondaryLinks = screen.getAllByRole('link', { name: /شاهد كيف/ });
     for (const link of secondaryLinks) {
       expect(link).toHaveAttribute('href', '#demo');
     }
@@ -49,7 +49,7 @@ describe('LandingPage', () => {
     render(<LandingPage />);
 
     const stepButton = screen
-      .getAllByRole('button', { name: /أنشئ عميلًا جديدًا/ })
+      .getAllByRole('button', { name: /أنشئ عميل/ })
       .find((button) => button.getAttribute('aria-pressed') === 'false');
     expect(stepButton).toBeDefined();
 
